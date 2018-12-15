@@ -1,0 +1,192 @@
+<!DOCTYPE HTML>
+{% load static %}
+<html>
+<head>
+<title>U-PMS | A easy to use project management system</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="keywords" content="A easy to user project management system" />
+<script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<link href="{% static 'css/bootstrap.css' %}" rel="stylesheet" type="text/css" media="all">
+<!-- Custom Theme files -->
+<link href="{% static 'css/style.css' %}" rel="stylesheet" type="text/css" media="all"/>
+<!--js-->
+<script src="{% static 'js/jquery-2.1.1.min.js' %}"></script>
+<!--icons-css-->
+<link href="{% static 'css/font-awesome.css' %}" rel="stylesheet">
+<!--Google Fonts-->
+<link href='//fonts.googleapis.com/css?family=Carrois+Gothic' rel='stylesheet' type='text/css'>
+<link href='//fonts.googleapis.com/css?family=Work+Sans:400,500,600' rel='stylesheet' type='text/css'>
+<!--//skycons-icons-->
+
+
+{% block headerscript %}
+
+
+{% endblock %}
+
+
+</head>
+<body>
+<div class="page-container">
+   <div class="left-content">
+	   <div class="mother-grid-inner">
+            <!--header start here-->
+				<div class="header-main">
+					<div class="header-left">
+							<div class="logo-name">
+									 <a href="{% url 'home' %}"> <h1>U-PMS</h1>
+									<!--<img id="logo" src="" alt="Logo"/>-->
+								  </a>
+							</div>
+							<!--search-box-->
+								<div class="search-box">
+									<form>
+										<input type="text" placeholder="Search..." required="">
+										<input type="submit" value="">
+									</form>
+								</div><!--//end-search-box-->
+							<div class="clearfix"> </div>
+						 </div>
+						 <div class="header-right">
+							<!--notification menu end -->
+							<div class="profile_details">
+								<ul>
+									<li class="dropdown profile_details_drop">
+										<a href="{% url 'accounts:profile' %}" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+											<div class="profile_img">
+												<span class="prfil-img"><img class="img-circle img-responsive" src="{% if request.user.photo %}{{ request.user.photo.url }}{% else %}{% static 'images/p1.png' %}{% endif %}" alt=""> </span>
+												<div class="user-name">
+													<p>{{ request.user.username }}</p>
+													<span>{{ request.user.designation|truncatechars:22 }}</span>
+												</div>
+												<i class="fa fa-angle-down lnr"></i>
+												<i class="fa fa-angle-up lnr"></i>
+												<div class="clearfix"></div>
+											</div>
+										</a>
+										<ul class="dropdown-menu drp-mnu">
+											<li> <a href="{% url 'accounts:edit' %}"><i class="fa fa-cog"></i> Settings</a> </li>
+											<li> <a href="{% url 'accounts:profile' %}"><i class="fa fa-user"></i> Profile</a> </li>
+											<li> <a href="{% url 'accounts:logout' %}"><i class="fa fa-sign-out"></i> Logout</a> </li>
+										</ul>
+									</li>
+								</ul>
+							</div>
+							<div class="clearfix"> </div>
+						</div>
+				     <div class="clearfix"> </div>
+				</div>
+<!--heder end here-->
+<!-- script-for sticky-nav -->
+		<script>
+		$(document).ready(function() {
+			 var navoffeset=$(".header-main").offset().top;
+			 $(window).scroll(function(){
+				var scrollpos=$(window).scrollTop();
+				if(scrollpos >=navoffeset){
+					$(".header-main").addClass("fixed");
+				}else{
+					$(".header-main").removeClass("fixed");
+				}
+			 });
+
+		});
+		</script>
+		<!-- /script-for sticky-nav -->
+<!--inner block start here-->
+
+
+
+
+
+
+
+  {% block content %}
+
+  {% endblock %}
+
+
+
+
+
+
+
+
+
+
+<!--inner block end here-->
+<!--copy rights start here-->
+<div class="copyrights">
+	 <p>© 2018 U-PMS. All Rights Reserved | Developed by  <a href="http://w3layouts.com/" target="_blank">Md.Mainuddin</a> </p>
+</div>
+<!--COPY rights end here-->
+</div>
+</div>
+<!--slider menu-->
+    <div class="sidebar-menu">
+		  	<div class="logo"> <a href="#" class="sidebar-icon"> <span class="fa fa-bars"></span> </a> <a href="#"> <span id="logo" ></span>
+			      <!--<img id="logo" src="" alt="Logo"/>-->
+			  </a> </div>
+		    <div class="menu">
+		      <ul id="menu" >
+		        <li id="menu-home" ><a href="{% url 'home' %}"><i class="fa fa-tachometer"></i><span>Dashboard</span></a></li>
+		        <li><a href="{% url 'projectmanager:myproject' %}"><i class="fa fa-cogs"></i><span>Projects</span></a></li>
+		        <li id="menu-academico" ><a href="{% url 'projectmanager:create' %}"><i class="fa fa-file-text"></i><span>New Project</span></a></li>
+
+		        <!-- <li><a href="charts.html"><i class="fa fa-bar-chart"></i><span>Charts</span></a></li>
+		        <li><a href="#"><i class="fa fa-envelope"></i><span>Mailbox</span><span class="fa fa-angle-right" style="float: right"></span></a>
+		        	 <ul id="menu-academico-sub" >
+			            <li id="menu-academico-avaliacoes" ><a href="inbox.html">Inbox</a></li>
+			            <li id="menu-academico-boletim" ><a href="inbox-details.html">Compose email</a></li>
+		             </ul>
+		        </li> -->
+		         <li><a href="#"><i class="fa fa-cog"></i><span>My Profile</span><span class="fa fa-angle-right" style="float: right"></span></a>
+		         	 <ul id="menu-academico-sub" >
+			            <li id="menu-academico-avaliacoes" ><a href="{% url 'accounts:profile' %}">Profile Detail</a></li>
+			            <li id="menu-academico-boletim" ><a href="{% url 'accounts:edit' %}">Edit Profile</a></li>
+		             </ul>
+		         </li>
+		      </ul>
+		    </div>
+	 </div>
+	<div class="clearfix"> </div>
+</div>
+<!--slide bar menu end here-->
+<script>
+var toggle = true;
+
+$(".sidebar-icon").click(function() {
+  if (toggle)
+  {
+    $(".page-container").addClass("sidebar-collapsed").removeClass("sidebar-collapsed-back");
+    $("#menu span").css({"position":"absolute"});
+  }
+  else
+  {
+    $(".page-container").removeClass("sidebar-collapsed").addClass("sidebar-collapsed-back");
+    setTimeout(function() {
+      $("#menu span").css({"position":"relative"});
+    }, 400);
+  }
+                toggle = !toggle;
+            });
+</script>
+<!--scrolling js-->
+		<script src="{% static 'js/jquery.nicescroll.js' %}"></script>
+		<script src="{% static 'js/scripts.js' %}"></script>
+		<!--//scrolling js-->
+<script src="{% static 'js/bootstrap.js' %}"> </script>
+<!-- mother grid end here-->
+
+
+
+
+{% block footerscript %}
+
+
+{% endblock %}
+
+</body>
+</html>

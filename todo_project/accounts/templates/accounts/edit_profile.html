@@ -1,0 +1,42 @@
+{% extends 'dashboard_base.html' %}
+{% load static %}
+
+{% block content %}
+
+<style>
+.user_profile {
+  margin: 130px 0px 70px;
+  overflow-x: hidden;
+}
+</style>
+
+
+  <div class="user_profile">
+    <div class="row">
+      <div class="col-md-10 col-md-offset-1">
+
+        <div class="compose-right">
+          <div class="inbox-details-default">
+            <div class="inbox-details-heading">
+              Edit user details
+            </div>
+            <div class="inbox-details-body">
+              <!-- <div class="alert alert-info">
+                Please fill details to send a new message
+              </div> -->
+              <form class="com-mail" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <div class="text-right">
+                  <input type="submit" value="Update">
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+{% endblock %}

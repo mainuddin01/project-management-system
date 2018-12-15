@@ -1,0 +1,47 @@
+<!DOCTYPE HTML>
+{% load static %}
+<html>
+<head>
+<title>U-PMS | A easy to use project management system</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="keywords" content="A easy to user project management system" />
+<script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<link href="{% static 'css/bootstrap.css' %}" rel="stylesheet" type="text/css" media="all">
+<!-- Custom Theme files -->
+<link href="{% static 'css/style.css' %}" rel="stylesheet" type="text/css" media="all"/>
+<!--js-->
+<script src="{% static 'js/jquery-2.1.1.min.js' %}"></script>
+<!--icons-css-->
+<link href="{% static 'css/font-awesome.css' %}" rel="stylesheet">
+<!--Google Fonts-->
+<link href='//fonts.googleapis.com/css?family=Carrois+Gothic' rel='stylesheet' type='text/css'>
+<link href='//fonts.googleapis.com/css?family=Work+Sans:400,500,600' rel='stylesheet' type='text/css'>
+<!--static chart-->
+</head>
+<body>
+
+
+
+{% block content %}
+
+
+{% endblock %}
+
+
+
+<!--copy rights start here-->
+<div class="copyrights">
+	 <p>© 2016 U-PMS. All Rights Reserved | Design by  <a href="#" target="_blank">Md.Mainuddin</a> </p>
+</div>
+<!--COPY rights end here-->
+
+<!--scrolling js-->
+		<script src="{% static 'js/jquery.nicescroll.js' %}"></script>
+		<script src="{% static 'js/scripts.js' %}"></script>
+		<!--//scrolling js-->
+<script src="{% static 'js/bootstrap.js' %}"> </script>
+<!-- mother grid end here-->
+</body>
+</html>

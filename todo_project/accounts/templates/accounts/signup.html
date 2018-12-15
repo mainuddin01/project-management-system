@@ -1,0 +1,41 @@
+{% extends 'blank_base.html' %}
+{% load static %}
+
+{% block content %}
+
+<div class="signup-page-main">
+     <div class="signup-main">
+    	 <div class="signup-head">
+				<h1>Sign Up</h1>
+			</div>
+			<div class="signup-block">
+				<form method="POST" enctype="multipart/form-data">
+					<!-- <input type="text" name="email" placeholder="Name" required="">
+					<input type="text" name="email" placeholder="Email" required="">
+					<input type="password" name="password" class="lock" placeholder="Password"> -->
+          {% csrf_token %}
+          {{ form.as_p }}
+					<div class="forgot-top-grids">
+						<div class="forgot-grid">
+							<ul>
+								<li>
+									<input type="checkbox" id="brand1" value="" required="">
+									<label for="brand1"><span></span>I agree to the terms</label>
+								</li>
+							</ul>
+						</div>
+
+						<div class="clearfix"> </div>
+					</div>
+					<input type="submit" name="Sign In" value="Sign up">
+				</form>
+				<div class="sign-down">
+				<h4>Already have an account? <a href="{% url 'accounts:login' %}"> Login here.</a></h4>
+				  <h5><a href="{% url 'home' %}">Go Back to Home</a></h5>
+				</div>
+			</div>
+    </div>
+</div>
+<!--inner block end here-->
+
+{% endblock %}

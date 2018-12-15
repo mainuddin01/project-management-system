@@ -1,0 +1,139 @@
+{% extends 'dashboard_base.html' %}
+
+{% load static %}
+
+{% block content %}
+
+<style media="screen">
+body {
+
+}
+
+
+.user_profile {
+  margin: 130px 0px 70px;
+  font-family: "open sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 13px;
+  color: #676a6c;
+  overflow-x: hidden;
+}
+
+.profile-img {
+    max-width: 160px;
+}
+
+.p-lg {
+  padding: 30px;
+}
+
+.navy-bg, .bg-primary {
+  background-color: #1ab394 !important;
+  color: #ffffff;
+}
+.widget-head-color-box {
+  border-radius: 5px 5px 0 0;
+  margin-top: 10px;
+}
+
+.m-b-md {
+    margin-bottom: 20px;
+}
+
+.no-margins {
+    margin: 0 !important;
+}
+
+.font-bold {
+    font-weight: 600;
+}
+
+h2 {
+    font-size: 24px;
+}
+
+img.circle-border {
+    border: 6px solid #FFFFFF;
+    border-radius: 50%;
+}
+
+.m-b-md {
+    margin-bottom: 20px;
+}
+
+.widget-text-box {
+    padding: 20px;
+    border: 1px solid #e7eaec;
+    background: #ffffff;
+}
+
+.table > thead > tr > th, .table > tbody > tr > th, .table > tfoot > tr > th, .table > thead > tr > td, .table > tbody > tr > td, .table > tfoot > tr > td {
+    border-top: 1px solid #e7eaec;
+    line-height: 1.42857;
+    padding: 8px;
+    vertical-align: top;
+}
+</style>
+
+
+<div class="user_profile">
+  <div class="row">
+    <div class="col-md-10 col-md-offset-1">
+      <div class="widget-head-color-box navy-bg p-lg text-center">
+        <div class="m-b-md">
+          <h2 class="font-bold no-margins">
+            {{ object.username }}
+          </h2>
+          <small>{{ object.employee_type }}</small>
+        </div>
+        {% if not object.photo %}
+        <img src="{% static 'img/a4.jpg' %}" class="profile-img rounded-circle circle-border m-b-md" alt="profile">
+        {% else %}
+        <img src="{{ object.photo.url }}" class="profile-img rounded-circle circle-border m-b-md" alt="profile">
+        {% endif %}
+        <div>
+          <span>Total projects {{ total_projects }}</span> |
+          <span>Running projects {{ running_projects }}</span> |
+          <span>Completed projects {{ completed_projects }}</span>
+        </div>
+      </div>
+      <div class="widget-text-box">
+        <h2 class="media-heading">Profile Details</h2>
+        <br>
+        <!-- <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p> -->
+        <table class="table">
+          <tr>
+            <td><strong>Username:</strong></td>
+            <td>{{ object.username }}</td>
+          </tr>
+          <tr>
+            <td><strong>First Name:</strong></td>
+            <td>{{ object.first_name }}</td>
+          </tr>
+          <tr>
+            <td><strong>Last Name:</strong></td>
+            <td>{{ object.last_name }}</td>
+          </tr>
+          <tr>
+            <td><strong>Email:</strong></td>
+            <td>{{ object.email }}</td>
+          </tr>
+          <tr>
+            <td><strong>Designation:</strong></td>
+            <td>{{ object.designation }}</td>
+          </tr>
+          <tr>
+            <td></td>
+            <td></td>
+          </tr>
+        </table>
+        <div class="text-right">
+          <a href="{% url 'logout' %}" class="btn btn-danger">Log Out</a>
+          <a href="{% url 'accounts:edit' %}" class="btn btn-primary">Edit Profile</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+{% endblock %}

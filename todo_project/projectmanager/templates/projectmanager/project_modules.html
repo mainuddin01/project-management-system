@@ -1,0 +1,979 @@
+{% extends 'dashboard_base.html' %}
+
+{% load static %}
+
+{% block content %}
+
+<style>
+  .project-details {
+    margin: 15px 0px 15px;
+  }
+</style>
+
+<div class="inner-block">
+    <div class="inbox">
+        <h2>Project Modules</h2>
+       <div class="col-md-4 compose">
+        <div class="mail-profile">
+          <div class="mail-pic">
+            <a href="#"><img class="img-responsive img-circle" src="{% if request.user.photo %}{{ request.user.photo.url }}{% else %}{% static 'images/b3.png' %}{% endif %}" alt=""></a>
+          </div>
+          <div class="mailer-name">
+              <h5><a href="#">{{ request.user.username }}</a></h5>
+                 <h6><a href="mailto:{{ request.user.email }}">{{ request.user.email }}</a></h6>
+          </div>
+            <div class="clearfix"> </div>
+        </div>
+        <div class="compose-block">
+          <a href="#tab7" data-toggle="tab">New Module</a>
+        </div>
+        <div class="compose-bottom">
+            <nav class="nav-sidebar">
+          <ul class="nav tabs">
+                <li class="active"><a href="#tab1" data-toggle="tab"><i class="fa fa-inbox"></i>Project Details <!--- <span>9</span> --><div class="clearfix"></div></a></li>
+                <li class=""><a href="#tab2" data-toggle="tab"><i class="fa fa-star-o"></i>All Modules</a></li>
+                <li class=""><a href="#tab3" data-toggle="tab"><i class="fa fa-star-o"></i>Important Modules</a></li>
+                <li class=""><a href="#tab4" data-toggle="tab"><i class="fa fa-pencil-square-o"></i>Running Modules</a></li>
+                <li class=""><a href="#tab5" data-toggle="tab"><i class="fa fa-trash-o"></i>Completed Modules</a></li>
+                <li class=""><a href="#tab6" data-toggle="tab"><i class="fa fa-trash-o"></i>Deactivated Modules</a></li>
+                <!-- <li class=""><a href="#tab4" data-toggle="tab"><i class="fa fa-pencil-square-o"></i>Draft <span>6</span><div class="clearfix"></div></a></li> -->
+                <!-- <li class=""><a href="#tab5" data-toggle="tab"><i class="fa fa-trash-o"></i>Delete</a></li> -->
+          </ul>
+        </nav>
+        </div>
+       </div>
+
+
+       <div class="col-md-8 mailbox-content  tab-content tab-content-in">
+
+
+         <!-- PROJECT DETAILS -->
+         <div class="tab-pane active text-style" id="tab1">
+           <div class="mailbox-border">
+
+             <div class="row">
+               <div class="col-sm-12 col-md-12">
+                 <div class="thumbnail">
+                   <a href="{{ project.related_diagram.url }}" class="thumbnail">
+                     {% if project.related_diagram %}
+                     <img class="img-responsive" src="{{ project.related_diagram.url }}" alt="...">
+                     {% else %}
+                     <img class="img-responsive" src="{% static 'images/dummy_image.png' %}" alt="...">
+                     {% endif %}
+                   </a>
+
+                   <div class="caption">
+                     <div class="project-details">
+                       <h3>{{ project.name }}</h3>
+                       <p>{{ project.description }}</p>
+                     </div>
+                     <p><a href="{% url 'projectmanager:edit' pk=project.pk %}" class="btn btn-primary" role="button">Edit Project</a> <a href="#tab7" data-toggle="tab" class="btn btn-default" role="button">Add new module</a></p>
+                   </div>
+                 </div>
+               </div>
+             </div>
+
+
+           </div>
+         </div>
+
+
+        <!-- ALL PROEJCTS -->
+        <div class="tab-pane text-style" id="tab2">
+          <div class="mailbox-border">
+                 <div class="mail-toolbar clearfix">
+             <div class="float-left">
+                <div class="btn btn_1 btn-default mrg5R">
+                   <i class="fa fa-refresh"> </i>
+                </div>
+                <div class="dropdown dropdown-inbox">
+                    <a href="#" title="" class="btn btn-default" data-toggle="dropdown" aria-expanded="false">
+                        <i class="fa fa-cog icon_8"></i>
+                        <i class="fa fa-chevron-down icon_8"></i>
+                    <div class="ripple-wrapper"></div></a>
+                    <ul class="dropdown-menu float-right">
+                        <li>
+                            <a href="#" title="">
+                                <i class="fa fa-pencil-square-o icon_9"> </i>
+                                Edit
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" title="">
+                                <i class="fa fa-calendar icon_9"> </i>
+                                Schedule
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" title="">
+                                <i class="fa fa-download icon_9"> </i>
+                                Download
+                            </a>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                            <a href="#" class="font-red" title="">
+                                <i class="fa fa-times" icon_9=""> </i>
+                                Delete
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="clearfix"> </div>
+            </div>
+            <div class="float-right">
+                              <span class="text-muted m-r-sm">Showing 20 of 346 </span>
+                              <div class="btn-group m-r-sm mail-hidden-options" style="display: inline-block;">
+                                  <div class="btn-group">
+                                      <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-folder"></i> <span class="caret"></span></a>
+                                      <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                                          <li><a href="#">Social</a></li>
+                                          <li><a href="#">Forums</a></li>
+                                          <li><a href="#">Updates</a></li>
+                                          <li class="divider"></li>
+                                          <li><a href="#">Spam</a></li>
+                                          <li><a href="#">Trash</a></li>
+                                          <li class="divider"></li>
+                                          <li><a href="#">New</a></li>
+                                      </ul>
+                                  </div>
+                                  <div class="btn-group">
+                                      <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-tags"></i> <span class="caret"></span></a>
+                                      <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                                          <li><a href="#">Work</a></li>
+                                          <li><a href="#">Family</a></li>
+                                          <li><a href="#">Social</a></li>
+                                          <li class="divider"></li>
+                                          <li><a href="#">Primary</a></li>
+                                          <li><a href="#">Promotions</a></li>
+                                          <li><a href="#">Forums</a></li>
+                                      </ul>
+                                  </div>
+                              </div>
+                              <div class="btn-group">
+                                  <a class="btn btn-default"><i class="fa fa-angle-left"></i></a>
+                                  <a class="btn btn-default"><i class="fa fa-angle-right"></i></a>
+                              </div>
+                         <div class="clearfix"> </div>
+            </div>
+                 </div>
+                  <table class="table tab-border">
+                      <tbody>
+
+
+                        {% for module in modules %}
+
+                          <tr class="unread checked" id="module-{{ module.id }}">
+                              <!-- <td class="hidden-xs">
+                                  <input type="checkbox" class="checkbox" id="module-checkbox" value="{{ module.id }}">
+                              </td> -->
+                              <td class="hidden-xs">
+                                  <i id="important-icon-{{ module.id }}" class="fa fa-star {% if module.important %}icon-state-warning{% else %}icon-state-default{% endif %}"> </i>
+                              </td>
+                              <td class="hidden-xs">
+                                  {{ module.name|truncatewords:4 }}
+                              </td>
+                              <td>
+                                  {{ module.description|truncatewords:6 }}
+                              </td>
+                              <td>
+                              </td>
+                              <td>
+                                <!-- Single button -->
+                                <div class="btn-group">
+                                  <button type="button" class="btn btn-warning btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="fa fa-cog icon_8"></i> <i class="fa fa-chevron-down icon_8"></i>
+                                  </button>
+                                  <ul class="dropdown-menu dropdown-menu-right">
+                                    {% if module.important %}
+                                      <li><a href="#" id="module-important-{{ module.id }}" onclick="moduleFunc({{ module.id }}, 'important')">Mark as not Important</a></li>
+                                    {% else %}
+                                      <li><a href="#" id="module-important-{{ module.id }}" onclick="moduleFunc({{ module.id }}, 'important')">Mark as Important</a></li>
+                                    {% endif %}
+                                    {% if module.working %}
+                                      <li><a href="#" id="module-working-{{ module.id }}" onclick="moduleFunc({{ module.id }}, 'working')">Mark as not Working</a></li>
+                                    {% else %}
+                                      <li><a href="#" id="module-working-{{ module.id }}" onclick="moduleFunc({{ module.id }}, 'working')">Mark as Working</a></li>
+                                    {% endif %}
+                                    {% if module.completed %}
+                                      <li><a href="#" id="module-completed-{{ module.id }}" onclick="moduleFunc({{ module.id }}, 'completed')">Mark as not Completed</a></li>
+                                    {% else %}
+                                      <li><a href="#" id="module-completed-{{ module.id }}" onclick="moduleFunc({{ module.id }}, 'completed')">Mark as Completed</a></li>
+                                    {% endif %}
+                                    <li role="separator" class="divider"></li>
+                                    {% if module.active %}
+                                      <li><a href="#" id="module-deactivated-{{ module.id }}" onclick="moduleFunc({{ module.id }}, 'deactivated')">Mark as not activated</a></li>
+                                    {% else %}
+                                      <li><a href="#" id="module-deactivated-{{ module.id }}" onclick="moduleFunc({{ module.id }}, 'deactivated')">Mark as activated</a></li>
+                                    {% endif %}
+                                  </ul>
+                                </div>
+                                <a href="{{ module.get_absolute_url }}" class="btn btn-sm btn-success">Detail</a>
+                              </td>
+                          </tr>
+
+                        {% endfor %}
+
+                      </tbody>
+                  </table>
+                 </div>
+        </div>
+
+        <!-- IMPORTANT PROEJCTS -->
+        <div class="tab-pane text-style" id="tab3">
+          <div class="mailbox-border">
+                 <div class="mail-toolbar clearfix">
+             <div class="float-left">
+                <div class="btn btn_1 btn-default mrg5R">
+                   <i class="fa fa-refresh"> </i>
+                </div>
+                <div class="dropdown dropdown-inbox">
+                    <a href="#" title="" class="btn btn-default" data-toggle="dropdown" aria-expanded="false">
+                        <i class="fa fa-cog icon_8"></i>
+                        <i class="fa fa-chevron-down icon_8"></i>
+                    <div class="ripple-wrapper"></div></a>
+                    <ul class="dropdown-menu float-right">
+                        <li>
+                            <a href="#" title="">
+                                <i class="fa fa-pencil-square-o icon_9"> </i>
+                                Edit
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" title="">
+                                <i class="fa fa-calendar icon_9"> </i>
+                                Schedule
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" title="">
+                                <i class="fa fa-download icon_9"> </i>
+                                Download
+                            </a>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                            <a href="#" class="font-red" title="">
+                                <i class="fa fa-times" icon_9=""> </i>
+                                Delete
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="clearfix"> </div>
+            </div>
+            <div class="float-right">
+                              <span class="text-muted m-r-sm">Showing 20 of 346 </span>
+                              <div class="btn-group m-r-sm mail-hidden-options" style="display: inline-block;">
+                                  <div class="btn-group">
+                                      <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-folder"></i> <span class="caret"></span></a>
+                                      <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                                          <li><a href="#">Social</a></li>
+                                          <li><a href="#">Forums</a></li>
+                                          <li><a href="#">Updates</a></li>
+                                          <li class="divider"></li>
+                                          <li><a href="#">Spam</a></li>
+                                          <li><a href="#">Trash</a></li>
+                                          <li class="divider"></li>
+                                          <li><a href="#">New</a></li>
+                                      </ul>
+                                  </div>
+                                  <div class="btn-group">
+                                      <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-tags"></i> <span class="caret"></span></a>
+                                      <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                                          <li><a href="#">Work</a></li>
+                                          <li><a href="#">Family</a></li>
+                                          <li><a href="#">Social</a></li>
+                                          <li class="divider"></li>
+                                          <li><a href="#">Primary</a></li>
+                                          <li><a href="#">Promotions</a></li>
+                                          <li><a href="#">Forums</a></li>
+                                      </ul>
+                                  </div>
+                              </div>
+                              <div class="btn-group">
+                                  <a class="btn btn-default"><i class="fa fa-angle-left"></i></a>
+                                  <a class="btn btn-default"><i class="fa fa-angle-right"></i></a>
+                              </div>
+                         <div class="clearfix"> </div>
+            </div>
+                 </div>
+                  <table class="table tab-border">
+                      <tbody id="important-modules">
+
+                        {% for module in important_modules %}
+
+                          <tr class="unread checked" id="important-{{ module.id }}">
+                              <!-- <td class="hidden-xs">
+                                  <input type="checkbox" class="checkbox" id="module-checkbox" value="{{ module.id }}">
+                              </td> -->
+                              <td class="hidden-xs">
+                                  <i id="important-important-icon-{{ module.id }}" class="fa fa-star {% if module.important %}icon-state-warning{% else %}icon-state-default{% endif %}"> </i>
+                              </td>
+                              <td class="hidden-xs">
+                                  {{ module.name|truncatewords:4 }}
+                              </td>
+                              <td>
+                                  {{ module.description|truncatewords:6 }}
+                              </td>
+                              <td>
+                              </td>
+                              <td>
+                                <!-- Single button -->
+                                <div class="btn-group">
+                                  <button type="button" class="btn btn-warning btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="fa fa-cog icon_8"></i> <i class="fa fa-chevron-down icon_8"></i>
+                                  </button>
+                                  <ul class="dropdown-menu dropdown-menu-right">
+                                    {% if module.important %}
+                                      <li><a href="#" id="important-important-{{ module.id }}" onclick="importantFunc({{ module.id }}, 'important')">Mark as not Important</a></li>
+                                    {% else %}
+                                      <li><a href="#" id="important-important-{{ module.id }}" onclick="importantFunc({{ module.id }}, 'important')">Mark as Important</a></li>
+                                    {% endif %}
+                                    {% if module.working %}
+                                      <li><a href="#" id="important-working-{{ module.id }}" onclick="importantFunc({{ module.id }}, 'working')">Mark as not Working</a></li>
+                                    {% else %}
+                                      <li><a href="#" id="important-working-{{ module.id }}" onclick="importantFunc({{ module.id }}, 'working')">Mark as Working</a></li>
+                                    {% endif %}
+                                    {% if module.completed %}
+                                      <li><a href="#" id="important-completed-{{ module.id }}" onclick="importantFunc({{ module.id }}, 'completed')">Mark as not Completed</a></li>
+                                    {% else %}
+                                      <li><a href="#" id="important-completed-{{ module.id }}" onclick="importantFunc({{ module.id }}, 'completed')">Mark as Completed</a></li>
+                                    {% endif %}
+                                    <li role="separator" class="divider"></li>
+                                    {% if module.active %}
+                                      <li><a href="#" id="important-deactivated-{{ module.id }}" onclick="importantFunc({{ module.id }}, 'deactivated')">Mark as not activated</a></li>
+                                    {% else %}
+                                      <li><a href="#" id="important-deactivated-{{ module.id }}" onclick="importantFunc({{ module.id }}, 'deactivated')">Mark as activated</a></li>
+                                    {% endif %}
+                                  </ul>
+                                </div>
+                                <a href="{{ module.get_absolute_url }}" class="btn btn-sm btn-success">Detail</a>
+                              </td>
+                          </tr>
+
+                        {% endfor %}
+
+                      </tbody>
+                  </table>
+                 </div>
+        </div>
+
+        <!-- RUNNING PROEJCTS -->
+        <div class="tab-pane text-style" id="tab4">
+          <div class="mailbox-border">
+                 <div class="mail-toolbar clearfix">
+             <div class="float-left">
+                <div class="btn btn_1 btn-default mrg5R">
+                   <i class="fa fa-refresh"> </i>
+                </div>
+                <div class="dropdown dropdown-inbox">
+                    <a href="#" title="" class="btn btn-default" data-toggle="dropdown" aria-expanded="false">
+                        <i class="fa fa-cog icon_8"></i>
+                        <i class="fa fa-chevron-down icon_8"></i>
+                    <div class="ripple-wrapper"></div></a>
+                    <ul class="dropdown-menu float-right">
+                        <li>
+                            <a href="#" title="">
+                                <i class="fa fa-pencil-square-o icon_9"> </i>
+                                Edit
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" title="">
+                                <i class="fa fa-calendar icon_9"> </i>
+                                Schedule
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" title="">
+                                <i class="fa fa-download icon_9"> </i>
+                                Download
+                            </a>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                            <a href="#" class="font-red" title="">
+                                <i class="fa fa-times" icon_9=""> </i>
+                                Delete
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="clearfix"> </div>
+            </div>
+            <div class="float-right">
+                              <span class="text-muted m-r-sm">Showing 20 of 346 </span>
+                              <div class="btn-group m-r-sm mail-hidden-options" style="display: inline-block;">
+                                  <div class="btn-group">
+                                      <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-folder"></i> <span class="caret"></span></a>
+                                      <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                                          <li><a href="#">Social</a></li>
+                                          <li><a href="#">Forums</a></li>
+                                          <li><a href="#">Updates</a></li>
+                                          <li class="divider"></li>
+                                          <li><a href="#">Spam</a></li>
+                                          <li><a href="#">Trash</a></li>
+                                          <li class="divider"></li>
+                                          <li><a href="#">New</a></li>
+                                      </ul>
+                                  </div>
+                                  <div class="btn-group">
+                                      <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-tags"></i> <span class="caret"></span></a>
+                                      <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                                          <li><a href="#">Work</a></li>
+                                          <li><a href="#">Family</a></li>
+                                          <li><a href="#">Social</a></li>
+                                          <li class="divider"></li>
+                                          <li><a href="#">Primary</a></li>
+                                          <li><a href="#">Promotions</a></li>
+                                          <li><a href="#">Forums</a></li>
+                                      </ul>
+                                  </div>
+                              </div>
+                              <div class="btn-group">
+                                  <a class="btn btn-default"><i class="fa fa-angle-left"></i></a>
+                                  <a class="btn btn-default"><i class="fa fa-angle-right"></i></a>
+                              </div>
+                         <div class="clearfix"> </div>
+            </div>
+                 </div>
+                  <table class="table tab-border">
+                      <tbody id="working-modules">
+
+                        {% for module in running_modules %}
+
+                          <tr class="unread checked" id="working-{{ module.id }}">
+                              <!-- <td class="hidden-xs">
+                                  <input type="checkbox" class="checkbox" id="module-checkbox" value="{{ module.id }}">
+                              </td> -->
+                              <td class="hidden-xs">
+                                  <i id="important-icon-{{ module.id }}" class="fa fa-star {% if module.important %}icon-state-warning{% else %}icon-state-default{% endif %}"> </i>
+                              </td>
+                              <td class="hidden-xs">
+                                  {{ module.name|truncatewords:4 }}
+                              </td>
+                              <td>
+                                  {{ module.description|truncatewords:6 }}
+                              </td>
+                              <td>
+                              </td>
+                              <td>
+                                <!-- Single button -->
+                                <div class="btn-group">
+                                  <button type="button" class="btn btn-warning btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="fa fa-cog icon_8"></i> <i class="fa fa-chevron-down icon_8"></i>
+                                  </button>
+                                  <ul class="dropdown-menu dropdown-menu-right">
+                                    {% if module.important %}
+                                      <li><a href="#" id="working-important-{{ module.id }}" onclick="workingFunc({{ module.id }}, 'important')">Mark as not Important</a></li>
+                                    {% else %}
+                                      <li><a href="#" id="working-important-{{ module.id }}" onclick="workingFunc({{ module.id }}, 'important')">Mark as Important</a></li>
+                                    {% endif %}
+                                    {% if module.working %}
+                                      <li><a href="#" id="working-working-{{ module.id }}" onclick="workingFunc({{ module.id }}, 'working')">Mark as not Working</a></li>
+                                    {% else %}
+                                      <li><a href="#" id="working-working-{{ module.id }}" onclick="workingFunc({{ module.id }}, 'working')">Mark as Working</a></li>
+                                    {% endif %}
+                                    {% if module.completed %}
+                                      <li><a href="#" id="working-completed-{{ module.id }}" onclick="workingFunc({{ module.id }}, 'completed')">Mark as not Completed</a></li>
+                                    {% else %}
+                                      <li><a href="#" id="working-completed-{{ module.id }}" onclick="workingFunc({{ module.id }}, 'completed')">Mark as Completed</a></li>
+                                    {% endif %}
+                                    <li role="separator" class="divider"></li>
+                                    {% if module.active %}
+                                      <li><a href="#" id="working-deactivated-{{ module.id }}" onclick="workingFunc({{ module.id }}, 'deactivated')">Mark as not activated</a></li>
+                                    {% else %}
+                                      <li><a href="#" id="working-deactivated-{{ module.id }}" onclick="workingFunc({{ module.id }}, 'deactivated')">Mark as activated</a></li>
+                                    {% endif %}
+                                  </ul>
+                                </div>
+                                <a href="{{ module.get_absolute_url }}" class="btn btn-sm btn-success">Detail</a>
+                              </td>
+                          </tr>
+
+                        {% endfor %}
+
+                      </tbody>
+                  </table>
+                 </div>
+        </div>
+
+        <!-- COMPLETED PROEJCTS -->
+        <div class="tab-pane text-style" id="tab5">
+          <div class="mailbox-border">
+                 <div class="mail-toolbar clearfix">
+             <div class="float-left">
+                <div class="btn btn_1 btn-default mrg5R">
+                   <i class="fa fa-refresh"> </i>
+                </div>
+                <div class="dropdown dropdown-inbox">
+                    <a href="#" title="" class="btn btn-default" data-toggle="dropdown" aria-expanded="false">
+                        <i class="fa fa-cog icon_8"></i>
+                        <i class="fa fa-chevron-down icon_8"></i>
+                    <div class="ripple-wrapper"></div></a>
+                    <ul class="dropdown-menu float-right">
+                        <li>
+                            <a href="#" title="">
+                                <i class="fa fa-pencil-square-o icon_9"> </i>
+                                Edit
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" title="">
+                                <i class="fa fa-calendar icon_9"> </i>
+                                Schedule
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" title="">
+                                <i class="fa fa-download icon_9"> </i>
+                                Download
+                            </a>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                            <a href="#" class="font-red" title="">
+                                <i class="fa fa-times" icon_9=""> </i>
+                                Delete
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="clearfix"> </div>
+            </div>
+            <div class="float-right">
+                              <span class="text-muted m-r-sm">Showing 20 of 346 </span>
+                              <div class="btn-group m-r-sm mail-hidden-options" style="display: inline-block;">
+                                  <div class="btn-group">
+                                      <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-folder"></i> <span class="caret"></span></a>
+                                      <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                                          <li><a href="#">Social</a></li>
+                                          <li><a href="#">Forums</a></li>
+                                          <li><a href="#">Updates</a></li>
+                                          <li class="divider"></li>
+                                          <li><a href="#">Spam</a></li>
+                                          <li><a href="#">Trash</a></li>
+                                          <li class="divider"></li>
+                                          <li><a href="#">New</a></li>
+                                      </ul>
+                                  </div>
+                                  <div class="btn-group">
+                                      <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-tags"></i> <span class="caret"></span></a>
+                                      <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                                          <li><a href="#">Work</a></li>
+                                          <li><a href="#">Family</a></li>
+                                          <li><a href="#">Social</a></li>
+                                          <li class="divider"></li>
+                                          <li><a href="#">Primary</a></li>
+                                          <li><a href="#">Promotions</a></li>
+                                          <li><a href="#">Forums</a></li>
+                                      </ul>
+                                  </div>
+                              </div>
+                              <div class="btn-group">
+                                  <a class="btn btn-default"><i class="fa fa-angle-left"></i></a>
+                                  <a class="btn btn-default"><i class="fa fa-angle-right"></i></a>
+                              </div>
+                         <div class="clearfix"> </div>
+            </div>
+                 </div>
+                  <table class="table tab-border">
+                      <tbody id="completed-modules">
+
+                        {% for module in completed_modules %}
+
+                          <tr class="unread checked" id="completed-{{ module.id }}">
+                              <!-- <td class="hidden-xs">
+                                  <input type="checkbox" class="checkbox" id="module-checkbox" value="{{ module.id }}">
+                              </td> -->
+                              <td class="hidden-xs">
+                                  <i id="important-icon-{{ module.id }}" class="fa fa-star {% if module.important %}icon-state-warning{% else %}icon-state-default{% endif %}"> </i>
+                              </td>
+                              <td class="hidden-xs">
+                                  {{ module.name|truncatewords:4 }}
+                              </td>
+                              <td>
+                                  {{ module.description|truncatewords:6 }}
+                              </td>
+                              <td>
+                              </td>
+                              <td>
+                                <!-- Single button -->
+                                <div class="btn-group">
+                                  <button type="button" class="btn btn-warning btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="fa fa-cog icon_8"></i> <i class="fa fa-chevron-down icon_8"></i>
+                                  </button>
+                                  <ul class="dropdown-menu dropdown-menu-right">
+                                    {% if module.important %}
+                                      <li><a href="#" id="completed-important-{{ module.id }}" onclick="completedFunc({{ module.id }}, 'important')">Mark as not Important</a></li>
+                                    {% else %}
+                                      <li><a href="#" id="completed-important-{{ module.id }}" onclick="completedFunc({{ module.id }}, 'important')">Mark as Important</a></li>
+                                    {% endif %}
+                                    {% if module.working %}
+                                      <li><a href="#" id="completed-working-{{ module.id }}" onclick="completedFunc({{ module.id }}, 'working')">Mark as not Working</a></li>
+                                    {% else %}
+                                      <li><a href="#" id="completed-working-{{ module.id }}" onclick="completedFunc({{ module.id }}, 'working')">Mark as Working</a></li>
+                                    {% endif %}
+                                    {% if module.completed %}
+                                      <li><a href="#" id="completed-completed-{{ module.id }}" onclick="completedFunc({{ module.id }}, 'completed')">Mark as not Completed</a></li>
+                                    {% else %}
+                                      <li><a href="#" id="completed-completed-{{ module.id }}" onclick="completedFunc({{ module.id }}, 'completed')">Mark as Completed</a></li>
+                                    {% endif %}
+                                    <li role="separator" class="divider"></li>
+                                    {% if module.active %}
+                                      <li><a href="#" id="completed-deactivated-{{ module.id }}" onclick="completedFunc({{ module.id }}, 'deactivated')">Mark as not activated</a></li>
+                                    {% else %}
+                                      <li><a href="#" id="completed-deactivated-{{ module.id }}" onclick="completedFunc({{ module.id }}, 'deactivated')">Mark as activated</a></li>
+                                    {% endif %}
+                                  </ul>
+                                </div>
+                                <a href="{{ module.get_absolute_url }}" class="btn btn-sm btn-success">Detail</a>
+                              </td>
+                          </tr>
+
+                        {% endfor %}
+
+                      </tbody>
+                  </table>
+                 </div>
+        </div>
+
+        <!-- DEACTIVATED PROEJCTS -->
+        <div class="tab-pane text-style" id="tab6">
+          <div class="mailbox-border">
+                 <div class="mail-toolbar clearfix">
+             <div class="float-left">
+                <div class="btn btn_1 btn-default mrg5R">
+                   <i class="fa fa-refresh"> </i>
+                </div>
+                <div class="dropdown dropdown-inbox">
+                    <a href="#" title="" class="btn btn-default" data-toggle="dropdown" aria-expanded="false">
+                        <i class="fa fa-cog icon_8"></i>
+                        <i class="fa fa-chevron-down icon_8"></i>
+                    <div class="ripple-wrapper"></div></a>
+                    <ul class="dropdown-menu float-right">
+                        <li>
+                            <a href="#" title="">
+                                <i class="fa fa-pencil-square-o icon_9"> </i>
+                                Edit
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" title="">
+                                <i class="fa fa-calendar icon_9"> </i>
+                                Schedule
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" title="">
+                                <i class="fa fa-download icon_9"> </i>
+                                Download
+                            </a>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                            <a href="#" class="font-red" title="">
+                                <i class="fa fa-times" icon_9=""> </i>
+                                Delete
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="clearfix"> </div>
+            </div>
+            <div class="float-right">
+                              <span class="text-muted m-r-sm">Showing 20 of 346 </span>
+                              <div class="btn-group m-r-sm mail-hidden-options" style="display: inline-block;">
+                                  <div class="btn-group">
+                                      <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-folder"></i> <span class="caret"></span></a>
+                                      <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                                          <li><a href="#">Social</a></li>
+                                          <li><a href="#">Forums</a></li>
+                                          <li><a href="#">Updates</a></li>
+                                          <li class="divider"></li>
+                                          <li><a href="#">Spam</a></li>
+                                          <li><a href="#">Trash</a></li>
+                                          <li class="divider"></li>
+                                          <li><a href="#">New</a></li>
+                                      </ul>
+                                  </div>
+                                  <div class="btn-group">
+                                      <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-tags"></i> <span class="caret"></span></a>
+                                      <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                                          <li><a href="#">Work</a></li>
+                                          <li><a href="#">Family</a></li>
+                                          <li><a href="#">Social</a></li>
+                                          <li class="divider"></li>
+                                          <li><a href="#">Primary</a></li>
+                                          <li><a href="#">Promotions</a></li>
+                                          <li><a href="#">Forums</a></li>
+                                      </ul>
+                                  </div>
+                              </div>
+                              <div class="btn-group">
+                                  <a class="btn btn-default"><i class="fa fa-angle-left"></i></a>
+                                  <a class="btn btn-default"><i class="fa fa-angle-right"></i></a>
+                              </div>
+                         <div class="clearfix"> </div>
+            </div>
+                 </div>
+                  <table class="table tab-border">
+                      <tbody id="deactivated-modules">
+
+                        {% for module in deactivated_modules %}
+
+                          <tr class="unread checked" id="deactivated-{{ module.id }}">
+                              <!-- <td class="hidden-xs">
+                                  <input type="checkbox" class="checkbox" id="module-checkbox" value="{{ module.id }}">
+                              </td> -->
+                              <td class="hidden-xs">
+                                  <i id="important-icon-{{ module.id }}" class="fa fa-star {% if module.important %}icon-state-warning{% else %}icon-state-default{% endif %}"> </i>
+                              </td>
+                              <td class="hidden-xs">
+                                  {{ module.name|truncatewords:4 }}
+                              </td>
+                              <td>
+                                  {{ module.description|truncatewords:6 }}
+                              </td>
+                              <td>
+                              </td>
+                              <td>
+                                <!-- Single button -->
+                                <div class="btn-group">
+                                  <button type="button" class="btn btn-warning btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="fa fa-cog icon_8"></i> <i class="fa fa-chevron-down icon_8"></i>
+                                  </button>
+                                  <ul class="dropdown-menu dropdown-menu-right">
+                                    {% if module.important %}
+                                      <li><a href="#" id="deactivated-important-{{ module.id }}" onclick="deactivatedFunc({{ module.id }}, 'important')">Mark as not Important</a></li>
+                                    {% else %}
+                                      <li><a href="#" id="deactivated-important-{{ module.id }}" onclick="deactivatedFunc({{ module.id }}, 'important')">Mark as Important</a></li>
+                                    {% endif %}
+                                    {% if module.working %}
+                                      <li><a href="#" id="deactivated-working-{{ module.id }}" onclick="deactivatedFunc({{ module.id }}, 'working')">Mark as not Working</a></li>
+                                    {% else %}
+                                      <li><a href="#" id="deactivated-working-{{ module.id }}" onclick="deactivatedFunc({{ module.id }}, 'working')">Mark as Working</a></li>
+                                    {% endif %}
+                                    {% if module.completed %}
+                                      <li><a href="#" id="deactivated-completed-{{ module.id }}" onclick="deactivatedFunc({{ module.id }}, 'completed')">Mark as not Completed</a></li>
+                                    {% else %}
+                                      <li><a href="#" id="deactivated-completed-{{ module.id }}" onclick="deactivatedFunc({{ module.id }}, 'completed')">Mark as Completed</a></li>
+                                    {% endif %}
+                                    <li role="separator" class="divider"></li>
+                                    {% if module.active %}
+                                      <li><a href="#" id="deactivated-deactivated-{{ module.id }}" onclick="deactivatedFunc({{ module.id }}, 'deactivated')">Mark as not activated</a></li>
+                                    {% else %}
+                                      <li><a href="#" id="deactivated-deactivated-{{ module.id }}" onclick="deactivatedFunc({{ module.id }}, 'deactivated')">Mark as activated</a></li>
+                                    {% endif %}
+                                  </ul>
+                                </div>
+                                <a href="{{ module.get_absolute_url }}" class="btn btn-sm btn-success">Detail</a>
+                              </td>
+                          </tr>
+
+                        {% endfor %}
+
+                      </tbody>
+                  </table>
+                 </div>
+        </div>
+
+
+
+
+
+
+        <div class="tab-pane text-style" id="tab7">
+
+
+          <div class="compose-right">
+            <div class="inbox-details-default">
+  						<div class="inbox-details-heading">
+  							Add New module
+  						</div>
+  						<div class="inbox-details-body">
+  							<!-- <div class="alert alert-info">
+  								Please fill details to add a new module
+  							</div> -->
+  							<form class="com-mail" method="POST" enctype="multipart/form-data">
+                  {% csrf_token %}
+                  {{ module_form.as_p }}
+                  <div class="text-right">
+                    <input type="submit" value="Save module">
+                  </div>
+  							</form>
+  						</div>
+  					</div>
+          </div>
+
+
+        </div>
+
+
+
+
+
+      </div>
+          <div class="clearfix"> </div>
+   </div>
+</div>
+
+
+{% endblock %}
+
+
+{% block footerscript %}
+  <script>
+
+
+  function moduleFunc(id, action){
+    var data = {'id': id, 'action': action}
+    console.log(data);
+    $.ajax({
+      type: "GET",
+      url: ".",
+      data: data,
+      success: function(data){
+        // console.log(data);
+        if(action == 'important'){
+          if(data.current_status){
+            $("#important-icon-" + id).removeClass("icon-state-default").addClass("icon-state-warning");
+            $("#module-" + action + "-" + id).text("Mark as not " + action);
+            var selectedModuleHtml = '<tr class="unread checked" id="important-' + id + '">' + $("#module-" + id).html() + '</tr>';
+            $("#important-modules").append(selectedModuleHtml);
+          }else{
+            $("#important-icon-" + id).removeClass("icon-state-warning").addClass("icon-state-default");
+            $("#module-" + action + "-" + id).text("Mark as " + action);
+            $("#important-" + id).remove();
+          }
+        }else if(action == "deactivated"){
+          if(data.current_status != true){
+            $("#module-" + action + "-" + id).text("Mark as activated");
+            var selectedModuleHtml = '<tr class="unread checked" id="' + action + '-' + id + '">' + $("#module-" + id).html() + '</tr>';
+            $("#" + action + "-modules").append(selectedModuleHtml);
+          }else{
+            $("#module-" + action + "-" + id).text("Mark as not activated");
+            $("#" + action + "-" + id).remove();
+          }
+        }else{
+          if(data.current_status){
+            $("#module-" + action + "-" + id).text("Mark as not " + action);
+            var selectedModuleHtml = '<tr class="unread checked" id="' + action + '-' + id + '">' + $("#module-" + id).html() + '</tr>';
+            $("#" + action + "-modules").append(selectedModuleHtml);
+          }else{
+            $("#module-" + action + "-" + id).text("Mark as " + action);
+            $("#" + action + "-" + id).remove();
+          }
+        }
+      },
+      error: function(response, errror){
+        // console.log(response);
+        console.log(error);
+      }
+    });
+  }
+
+
+  function importantFunc(id, action){
+    var data = {'id': id, 'action': action}
+    console.log(data);
+    $.ajax({
+      type: "GET",
+      url: ".",
+      data: data,
+      success: function(data){
+        if(data.current_status != false){
+          $("#important-" + id).remove();
+          $("#important-icon-" + id).removeClass("icon-state-warning").addClass("icon-state-default");
+          $("#module-" + action + "-" + id).text("Mark as " + action);
+        }
+      },
+      error: function(response, errror){
+        console.log(error);
+      }
+    });
+  }
+
+
+  function workingFunc(id, action){
+    var data = {'id': id, 'action': action}
+    console.log(data);
+    $.ajax({
+      type: "GET",
+      url: ".",
+      data: data,
+      success: function(data){
+        if(data.current_status != false){
+          $("#working-" + id).remove();
+          // $("#important-icon-" + id).removeClass("icon-state-warning").addClass("icon-state-default");
+          $("#module-" + action + "-" + id).text("Mark as " + action);
+        }
+      },
+      error: function(response, errror){
+        console.log(error);
+      }
+    });
+  }
+
+
+  function completedFunc(id, action){
+    var data = {'id': id, 'action': action}
+    console.log(data);
+    $.ajax({
+      type: "GET",
+      url: ".",
+      data: data,
+      success: function(data){
+        if(data.current_status != false){
+          $("#completed-" + id).remove();
+          // $("#important-icon-" + id).removeClass("icon-state-warning").addClass("icon-state-default");
+          $("#module-" + action + "-" + id).text("Mark as " + action);
+        }
+      },
+      error: function(response, errror){
+        console.log(error);
+      }
+    });
+  }
+
+
+  function deactivatedFunc(id, action){
+    var data = {'id': id, 'action': action}
+    console.log(data);
+    $.ajax({
+      type: "GET",
+      url: ".",
+      data: data,
+      success: function(data){
+        if(data.current_status == true){
+          $("#deactivated-" + id).remove();
+          // $("#important-icon-" + id).removeClass("icon-state-warning").addClass("icon-state-default");
+          $("#module-" + action + "-" + id).text("Mark as " + action);
+        }
+      },
+      error: function(response, errror){
+        console.log(error);
+      }
+    });
+  }
+
+  // var moduleArray = [];
+  // $(".checkbox").change(function(){
+  //   if(this.checked == true){
+  //     console.log(this.value);
+  //     if($.inArray(this.value, moduleArray) < 0){
+  //       moduleArray.push(this.value);
+  //       console.log(moduleArray);
+  //     }
+  //   }
+  //   else if(this.checked == false){
+  //     if($.inArray(this.value, moduleArray) >= 0){
+  //       moduleArray.pop(this.value);
+  //       console.log(moduleArray);
+  //     }
+  //   }
+  // });
+
+  </script>
+{% endblock %}

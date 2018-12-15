@@ -1,0 +1,298 @@
+{% extends 'dashboard_base.html' %}
+
+{% block header_script %}
+
+{% endblock %}
+
+{% block content %}
+
+
+<style>
+body{
+  background-color:#EEEEEE;
+}
+
+.inner-block {
+    padding: 3em 2em 4em 2em;
+    background: #fafafa;
+}
+
+.blank {
+  min-height: 0px;
+}
+
+.blankpage-main {
+    padding: 1.5em 2em;
+    margin-top: 0em;
+}
+
+.blank h2 {
+    margin-bottom: 15px;
+}
+
+p.module-btn-set {
+    margin-top: 10px;
+}
+
+.todo-content {
+  margin-top: 15px;
+  margin-bottom: 60px;
+}
+.todolist{
+  background-color:#FFF;
+  padding:20px 20px 10px 20px;
+  margin-top:30px;
+  box-shadow: 0px 0px 2px 1px rgba(0,0,0,0.15);
+}
+.todolist h1{
+  margin:0;
+  padding-bottom:20px;
+  text-align:center;
+}
+.form-control{
+  border-radius:0;
+}
+li.ui-state-default{
+  background:#fff;
+  border:none;
+  border-bottom:1px solid #ddd;
+}
+
+li.ui-state-default:last-child{
+  border-bottom:none;
+}
+
+.todo-footer{
+  background-color:#F4FCE8;
+  margin:0 -20px -10px -20px;
+  padding: 10px 20px;
+}
+#done-items li{
+  padding:10px 0;
+  border-bottom:1px solid #ddd;
+  text-decoration:line-through;
+}
+#done-items li:last-child{
+  border-bottom:none;
+}
+#checkAll{
+  margin-top:10px;
+}
+</style>
+
+
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
+<div class="inner-block">
+    <div class="blank">
+      <div class="blankpage-main">
+        <h2>{{ module.name }}</h2>
+        <p>{{ module.description }}</p>
+        <p class="module-btn-set"><a href="{% url 'projectmanager:module_edit' pk=project_pk id=module.id %}" class="btn btn-primary" role="button">Edit Module</a> {% if module.related_diagram %}<a href="{{ module.related_diagram.url }}" class="btn btn-default" role="button">Related Diagram</a>{% endif %}</p>
+      </div>
+    </div>
+    <div class="todo-content">
+      <div class="row">
+        <div class="col-md-6">
+          <div class="todolist not-done">
+            <h1>Todos</h1>
+            <form id="todo-form" method="POST">
+              {% csrf_token %}
+              {{ todo_form.as_p }}
+            </form>
+            <!-- <button id="checkAll" class="btn btn-success">Mark all as done</button> -->
+
+            <hr>
+            <ul id="sortable" class="list-unstyled">
+              {% for todo in available_todos %}
+              <form id="item-form" method="GET">
+                <li class="ui-state-default">
+                  <div class="checkbox">
+                    <label>
+                      <input type="checkbox" name="chkbox" value="{{ todo.id }}" />{{ todo }}</label>
+                    </div>
+                  </li>
+                </form>
+
+                {% endfor %}
+
+              </ul>
+              <div class="todo-footer">
+                <strong><span class="count-todos"></span></strong> Items Left
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="todolist">
+              <h1>Already Done</h1>
+              <ul id="done-items" class="list-unstyled">
+                {% for todo in completed_todos %}
+                <li>{{ todo }} <button class="remove-item btn btn-default btn-xs pull-right" value="{{ todo.id }}"><span class="glyphicon glyphicon-remove"></span></button></li>
+                {% endfor %}
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+</div>
+
+{% endblock %}
+
+
+{% block  footerscript %}
+
+<script>
+$("#sortable").sortable();
+$("#sortable").disableSelection();
+
+countTodos();
+
+// all done btn
+$("#checkAll").click(function(){
+  AllDone();
+});
+
+// //create todo
+// $('.add-todo').on('keypress',function (e) {
+//     e.preventDefault
+//     if (e.which == 13) {
+//          if($(this).val() != ''){
+//          var todo = $(this).val();
+//           createTodo(todo);
+//           countTodos();
+//          }else{
+//              // some validation
+//          }
+//     }
+// });
+
+
+//create todo
+$('.add-todo').on('keypress',function (e) {
+    e.preventDefault
+    if (e.which == 13) {
+         if($(this).val() != ''){
+         var todo = $(this).val();
+          createTodo(todo);
+          countTodos();
+         }else{
+             // some validation
+         }
+    }
+});
+
+
+// mark task as done
+$('.todolist').on('change','#sortable li input[type="checkbox"]',function(){
+  if($(this).prop('checked')){
+      var doneItem = $(this).parent().parent().find('label').text();
+      $(this).parent().parent().parent().addClass('remove');
+      done(doneItem);
+
+      var completed = $(this).val();
+      var completedWork = {'completed': completed}
+      $.ajax({
+        type: "GET",
+        url: ".",
+        data: completedWork,
+        success: function(data){
+          console.log(data);
+        },
+        error: function(response, error){
+          console.log(response);
+          console.log(error);
+        }
+      });
+
+      countTodos();
+  }
+});
+
+//delete done task from "already done"
+$('.todolist').on('click','.remove-item',function(){
+  removeItem(this);
+
+  var deactivateId = $(this).val();
+  var deactivateItem = {'deactivate_id': deactivateId}
+  $.ajax({
+    type: "GET",
+    url: ".",
+    data: deactivateItem,
+    success: function(data){
+      console.log(data);
+    },
+    error: function(response, error){
+      console.log(response);
+      console.log(error);
+    }
+  })
+});
+
+// count tasks
+function countTodos(){
+  var count = $("#sortable li").length;
+  $('.count-todos').html(count);
+}
+
+//create task
+function createTodo(text){
+  var markup = '<li class="ui-state-default"><div class="checkbox"><label><input type="checkbox" value="" />'+ text +'</label></div></li>';
+  $('#sortable').append(markup);
+
+
+  var formData = $("#todo-form").serialize();
+  console.log(formData);
+  $.ajax({
+    type: "POST",
+    url: ".",
+    data: formData,
+    success: function(data){
+      // console.log(data);
+      // $("#jquery-message").text("Added " + data.item_added + " Deleted " + data.deleted);
+    },
+    error: function(response, error){
+      // console.log(response);
+      // console.log(error);
+      // $("#todo-form").submit();
+    }
+  });
+
+
+  $('.add-todo').val('');
+}
+
+//mark task as done
+function done(doneItem){
+  var done = doneItem;
+  var markup = '<li>'+ done +'<button class="btn btn-default btn-xs pull-right  remove-item"><span class="glyphicon glyphicon-remove"></span></button></li>';
+  $('#done-items').append(markup);
+
+
+
+  $('.remove').remove();
+}
+
+//mark all tasks as done
+function AllDone(){
+  var myArray = [];
+
+  $('#sortable li').each( function() {
+       myArray.push($(this).text());
+  });
+
+  // add to done
+  for (i = 0; i < myArray.length; i++) {
+      $('#done-items').append('<li>' + myArray[i] + '<button class="btn btn-default btn-xs pull-right  remove-item"><span class="glyphicon glyphicon-remove"></span></button></li>');
+  }
+
+  // myArray
+  $('#sortable li').remove();
+  countTodos();
+}
+
+//remove done task from list
+function removeItem(element){
+  $(element).parent().remove();
+}
+</script>
+
+{% endblock %}

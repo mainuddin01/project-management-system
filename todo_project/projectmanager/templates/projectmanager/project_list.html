@@ -1,0 +1,45 @@
+{% extends 'dashboard_base.html' %}
+{% load static %}
+
+{% block content %}
+
+<div class="inner-block">
+    <div class="product-block">
+      <div class="pro-head">
+        <h2>Products</h2>
+      </div>
+
+      {% for project in object_list %}
+
+        <div class="col-md-3 product-grid">
+          <div class="product-items">
+                <div class="project-eff">
+              <!-- <div id="nivo-lightbox-demo"> <p> <a href="{% static 'images/pro1.jpg' %}"data-lightbox-gallery="gallery1" id="nivo-lightbox-demo"><span class="rollover1"> </span> </a></p></div> -->
+                <a href="#"><img class="img-responsive" src="{% static 'images/pro1.jpg' %}" alt=""></a>
+            </div>
+            <div class="produ-cost">
+              <a href="#"><h4>{{ project.name }}</h4></a>
+              <h5>256 $</h5>
+            </div>
+          </div>
+        </div>
+
+      {% endfor %}
+
+      <div class="col-md-3 product-grid">
+        <div class="product-items">
+             <div class="project-eff">
+            <div id="nivo-lightbox-demo"> <p> <a href="{% static 'images/pro2.jpg' %}"data-lightbox-gallery="gallery1" id="nivo-lightbox-demo"><span class="rollover1"> </span> </a></p></div>
+              <img class="img-responsive" src="{% static 'images/pro2.jpg' %}" alt="">
+          </div>
+          <div class="produ-cost">
+            <h4>Temporibus autem</h4>
+            <h5>156 $</h5>
+          </div>
+        </div>
+      </div>
+      <div class="clearfix"> </div>
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,30 @@
+{% extends 'dashboard_base.html' %}
+
+{% block content %}
+
+<style media="screen">
+  .project-form-block {
+    width: 50%;
+    margin-top: 25px;
+  }
+</style>
+
+<div class="login-page">
+    <div class="login-main project-form-block">
+    	 <div class="login-head">
+				<h1>{% if form.instance.name %}Update{% else %}Create{% endif %} Project</h1>
+			</div>
+			<div class="login-block">
+				<form method="POST" enctype="multipart/form-data">
+          {% csrf_token %}
+          {{ form.as_p }}
+					<div class="forgot-top-grids">
+						<div class="clearfix"> </div>
+					</div>
+					<input type="submit" value="Save">
+				</form>
+			</div>
+      </div>
+</div>
+
+{% endblock %}
